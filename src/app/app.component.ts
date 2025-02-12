@@ -1,5 +1,6 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
+import { LayoutService } from './core/services/layout.service';
 
 @Component({
   selector: 'app-root',
@@ -8,5 +9,7 @@ import { RouterOutlet } from '@angular/router';
   styleUrl: './app.component.scss'
 })
 export class AppComponent {
-  title = 'web-ng-client';
+  constructor(private layoutService: LayoutService) {
+    this.layoutService.changeTheme(this.layoutService.defaultTheme);
+  }
 }
