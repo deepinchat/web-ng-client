@@ -1,10 +1,10 @@
 import { Routes } from '@angular/router';
-import { LayoutComponent } from './components/layout/layout.component';
 import { authGuard } from './core/guards/auth.guard';
+import { LayoutComponent } from './shared/components/layout/layout.component';
 
 export const routes: Routes = [
     {
-        path: 'callback/:type',
+        path: 'callback',
         loadChildren: () => import('./callback/callback.routes')
     },
     {
@@ -15,6 +15,10 @@ export const routes: Routes = [
             {
                 path: 'home',
                 loadChildren: () => import('./home/home.routes')
+            },
+            {
+                path: 'chats',
+                loadChildren: () => import('./chats/chats.routes')
             },
             {
                 path: '',

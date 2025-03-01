@@ -3,7 +3,7 @@ import { CallbackComponent } from "./callback.component";
 
 export default [
     {
-        path: '',
+        path: ':type',
         component: CallbackComponent
     }
 ] satisfies Route[];

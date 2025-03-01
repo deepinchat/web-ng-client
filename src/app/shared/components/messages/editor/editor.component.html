@@ -1,0 +1,14 @@
+@if (form) {
+<form [formGroup]="form" (ngSubmit)="onSubmit()" (keydown)="enterForm($event)">
+    <mat-form-field>
+        <textarea formControlName="content" matInput placeholder="Typing messages here"></textarea>
+        <button class="form-submit" type="submit" mat-mini-fab [disabled]="form.invalid || isLoading" matSuffix
+            mat-icon-button>
+            @if (isLoading) {
+            <mat-spinner diameter="20" />
+            }
+            <mat-icon>send</mat-icon>
+        </button>
+    </mat-form-field>
+</form>
+}

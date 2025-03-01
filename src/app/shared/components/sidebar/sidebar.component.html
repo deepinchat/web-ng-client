@@ -5,7 +5,7 @@
     <a mat-list-item routerLink="/public">
         <mat-icon matListItemIcon>explore</mat-icon>
     </a>
-    <a mat-list-item routerLink="/home" routerLinkActive="activated">
+    <a mat-list-item routerLink="/chats">
         <mat-icon matListItemIcon>chat</mat-icon>
     </a>
     <a mat-list-item routerLink="/spaces">
@@ -17,6 +17,9 @@
     </a>
 </mat-nav-list>
 <mat-nav-list>
+    <mat-list-item [matMenuTriggerFor]="addMenu">
+        <mat-icon matListItemIcon>add</mat-icon>
+    </mat-list-item>
     <mat-list-item (click)="toggleTheme()">
         <mat-icon>
             {{ theme == 'light' ? 'dark_mode' : 'light_mode' }}
@@ -27,3 +30,17 @@
         <span>Settings</span>
     </a>
 </mat-nav-list>
+<mat-menu #addMenu="matMenu" yPosition="above" xPosition="before">
+    <button mat-menu-item>
+        <mat-icon>person_add</mat-icon>
+        <span>Add Frends</span>
+    </button>
+    <button mat-menu-item (click)="createGroup()">
+        <mat-icon>group_add</mat-icon>
+        <span>Create Group</span>
+    </button>
+    <button mat-menu-item (click)="createChannel()">
+        <mat-icon>campaign</mat-icon>
+        <span>Create Channel</span>
+    </button>
+</mat-menu>

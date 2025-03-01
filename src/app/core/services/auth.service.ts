@@ -1,5 +1,5 @@
 import { Inject, Injectable } from '@angular/core';
-import { User, UserManager, UserManagerSettings } from 'oidc-client-ts';
+import { User, UserManager, UserManagerSettings, WebStorageStateStore } from 'oidc-client-ts';
 import { environment } from '../../../environments/environment';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { DOCUMENT } from '@angular/common';
@@ -22,7 +22,7 @@ export class AuthService {
       scope: environment.clientScope,
       response_type: 'code',
       automaticSilentRenew: true,
-      loadUserInfo: true,
+      loadUserInfo: true
     };
     this.userManager = new UserManager(settings);
     this.userManager.events.addUserLoaded(() => this.loadUser());

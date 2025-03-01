@@ -1,8 +1,9 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { MatSidenavContainer, MatSidenav, MatSidenavContent } from '@angular/material/sidenav';
 import { MatDivider } from '@angular/material/divider';
 import { SidebarComponent } from '../sidebar/sidebar.component';
+import { UserService } from '../../../core/services/user.service';
 
 @Component({
   selector: 'app-layout',
@@ -17,6 +18,12 @@ import { SidebarComponent } from '../sidebar/sidebar.component';
   templateUrl: './layout.component.html',
   styleUrl: './layout.component.scss'
 })
-export class LayoutComponent {
-
+export class LayoutComponent implements OnInit {
+  constructor(
+    private userService: UserService
+  ) {
+  }
+  ngOnInit(): void {
+    this.userService.init();
+  }
 }

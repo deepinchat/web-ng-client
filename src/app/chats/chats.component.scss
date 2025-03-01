@@ -1,0 +1,26 @@
+:host {
+    height: 100%;
+    display: flex;
+    flex-direction: row;
+
+    .chat-container {
+        flex: 1;
+        height: 100%;
+        overflow-y: auto;
+    }
+
+    deepin-chat-list {
+        min-width: 4rem;
+        width: 20rem;
+        max-width: 50vw;
+        resize: horizontal;
+        overflow-y: auto;
+        border-right: 1px solid var(--mat-sys-outline-variant);
+    }
+}
+
+.scroll-bar-light {
+    scrollbar-width: thin;
+    transition: scrollbar-color 0.5s ease;
+    -webkit-overflow-scrolling: touch;
+}

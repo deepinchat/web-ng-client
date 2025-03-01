@@ -1,0 +1,5 @@
+<mat-list>
+    @for (chat of chats; track $index) {
+    <deepin-chat-list-item [isActive]="openedChatId === chat.id" [chat]="chat" (click)="onChat(chat)"></deepin-chat-list-item>
+    }
+</mat-list>
