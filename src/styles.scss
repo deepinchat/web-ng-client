@@ -1,10 +1,22 @@
 // Custom Theming for Angular Material
 // For more information: https://material.angular.io/guide/theming
 @use '@angular/material' as mat;
+@use './theme-colors' as default-theme;
+
+// html {
+//   color-scheme: light dark;
+//   @include mat.form-field-density(-5);
+//   @include mat.theme((color: (primary: default-theme.$primary-palette,
+//         tertiary: default-theme.$tertiary-palette ),
+//       typography: Roboto,
+//       density: 0,
+//     ));
+// }
 
 html {
   color-scheme: light dark;
-  @include mat.theme((color: mat.$green-palette,
+  @include mat.form-field-density(-5);
+  @include mat.theme((color: mat.$azure-palette,
       typography: Roboto,
       density: 0,
     ));
@@ -20,4 +32,10 @@ body {
 body {
   margin: 0;
   font-family: Roboto, "Helvetica Neue", sans-serif;
+}
+
+.thin-scrollbar {
+  scrollbar-width: thin;
+  transition: scrollbar-color 0.5s ease;
+  -webkit-overflow-scrolling: touch;
 }

@@ -1,5 +1,14 @@
-<mat-list>
+<mat-toolbar>
+    <form class="chat-search-form">
+        <mat-form-field class="chat-search" appearance="fill">
+            <input matInput placeholder="Search" value="">
+            <mat-icon matSuffix>search</mat-icon>
+        </mat-form-field>
+    </form>
+</mat-toolbar>
+<mat-list class="thin-scrollbar">
     @for (chat of chats; track $index) {
-    <deepin-chat-list-item [isActive]="openedChatId === chat.id" [chat]="chat" (click)="onChat(chat)"></deepin-chat-list-item>
+    <deepin-chat-list-item [isActive]="openedChatId === chat.id" [chat]="chat"
+        (click)="onChat(chat)"></deepin-chat-list-item>
     }
 </mat-list>

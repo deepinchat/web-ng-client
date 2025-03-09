@@ -8,6 +8,7 @@ export interface MessageRequest {
 
 export interface Message {
     id: string;
+    chatId: string;
     content: string;
     createdAt: Date;
     updatedAt: Date;

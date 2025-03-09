@@ -175,25 +175,25 @@ export class MessageDataSource extends DataSource<Message> {
 
         return new Observable<boolean>(observer => {
             this.subscription.add(this.messageService.getMessages(this.forwardsQuery.query)
-            .subscribe({
-                next: (res) => {
-                    if (res.items.length > 0) {
-                        this.forwardsQuery.query.anchorSquence = res.items[res.items.length - 1].sequence;
-                        this.forwardsQuery.hasMore = res.hasMore;
-                        this.addMessages(res.items);
-                    } else {
-                        this.forwardsQuery.hasMore = false;
+                .subscribe({
+                    next: (res) => {
+                        if (res.items.length > 0) {
+                            this.forwardsQuery.query.anchorSquence = res.items[res.items.length - 1].sequence;
+                            this.forwardsQuery.hasMore = res.hasMore;
+                            this.addMessages(res.items);
+                        } else {
+                            this.forwardsQuery.hasMore = false;
+                        }
+                        observer.next(res.items.length > 0);
+                        observer.complete();
+                    },
+                    complete: () => {
+                        this.forwardsQuery.isLoading = false;
+                        this.loadingSubject.next(false);
+                        observer.next(false);
+                        observer.complete();
                     }
-                    observer.next(res.items.length > 0);
-                    observer.complete();
-                },
-                complete: () => {
-                    this.forwardsQuery.isLoading = false;
-                    this.loadingSubject.next(false);
-                    observer.next(false);
-                    observer.complete();
-                }
-            }))
+                }))
         });
     }
 }

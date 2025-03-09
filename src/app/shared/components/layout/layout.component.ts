@@ -4,6 +4,7 @@ import { MatSidenavContainer, MatSidenav, MatSidenavContent } from '@angular/mat
 import { MatDivider } from '@angular/material/divider';
 import { SidebarComponent } from '../sidebar/sidebar.component';
 import { UserService } from '../../../core/services/user.service';
+import { ChatHubService } from '../../../core/services/chat-hub.service';
 
 @Component({
   selector: 'app-layout',
@@ -20,10 +21,12 @@ import { UserService } from '../../../core/services/user.service';
 })
 export class LayoutComponent implements OnInit {
   constructor(
-    private userService: UserService
+    private userService: UserService,
+    private chatHubService: ChatHubService
   ) {
   }
   ngOnInit(): void {
     this.userService.init();
+    this.chatHubService.start();
   }
 }

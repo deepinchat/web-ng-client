@@ -1,0 +1,31 @@
+@if (message) {
+<div class="message" [class.message-my]="message.isMyMessage" [class.message-other]="!message.isMyMessage">
+    <div class="message-container">
+        @if (!message.isMyMessage) {
+        <deepin-avatar [avatarUrl]="message.from.id | fileUrl"></deepin-avatar>
+        }
+        <div class="message-content">
+            @if (!message.isMyMessage) {
+            <div class="message-sender">
+                {{ message.from.displayName }}
+            </div>
+            }
+            @if(message.content) {
+            <div class="message-text">
+                {{ message.content }}
+                @if(message.isEdited){
+                <span class="edited-indicator">(Edited)</span>
+                }
+            </div>
+            }
+
+            <div class="message-timestamp">
+                {{ message.createdAt | formatTime }}
+                @if(message.isMyMessage && message.isRead){
+                <span class="read-status">✓</span>
+                }
+            </div>
+        </div>
+    </div>
+</div>
+}

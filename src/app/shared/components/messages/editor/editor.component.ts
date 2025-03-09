@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
-import { MatMiniFabButton } from '@angular/material/button';
+import { MatButton, MatIconButton, MatMiniFabButton } from '@angular/material/button';
 import { MatFormField, MatSuffix } from '@angular/material/form-field';
 import { MatIcon } from '@angular/material/icon';
 import { MatInput } from '@angular/material/input';
@@ -17,7 +17,7 @@ import { MessageService } from '../../../../core/services/message.service';
     MatIcon,
     MatProgressSpinner,
     MatSuffix,
-    MatMiniFabButton
+    MatIconButton
   ],
   templateUrl: './editor.component.html',
   styleUrl: './editor.component.scss'

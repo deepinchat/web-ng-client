@@ -6,6 +6,7 @@ import { RouterLink } from '@angular/router';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { ChatEditorComponent } from '../chats/chat-editor/chat-editor.component';
 import { ThemeType, LayoutService } from '../../../core/services/layout.service';
+import { MatButtonModule } from '@angular/material/button';
 
 @Component({
   selector: 'deepin-sidebar',
@@ -16,7 +17,8 @@ import { ThemeType, LayoutService } from '../../../core/services/layout.service'
     MatMenu,
     MatMenuItem,
     MatMenuTrigger,
-    MatDialogModule
+    MatDialogModule,
+    MatButtonModule
   ],
   templateUrl: './sidebar.component.html',
   styleUrl: './sidebar.component.scss'

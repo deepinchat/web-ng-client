@@ -22,6 +22,10 @@ export class MessageService {
     });
   }
 
+  getMessage(chatId: string, id: string) {
+    return this.httpClient.get<Message>(`${environment.apiGateway}/api/v1/chats/${chatId}/messages/${id}`);
+  }
+
   send(request: MessageRequest) {
     return this.httpClient.post<Message>(`${environment.apiGateway}/message/api/v1/messages`, request);
   }

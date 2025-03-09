@@ -1,86 +1,18 @@
 @if (dataSource) {
-<div class="chat-container">
-    <div class="pull-to-load-indicator top"
-        [class.active]="isPulling && pullToLoadProgress > 0 && scrollViewport.measureScrollOffset('top') < 5">
-        <div class="progress-circle" [style.transform]="'rotate(' + (pullToLoadProgress * 3.6) + 'deg)'"></div>
-        <div class="pull-text">{{ pullToLoadProgress >= 100 ? '释放加载历史消息' : '下拉加载历史消息' }}</div>
-    </div>
-    @if (dataSource.isLoadingHistory) {
-    <div class="loading-indicator top">
-        <div class="spinner"></div>
-        <div>加载早期消息...</div>
-    </div>
-    }
-
-    <cdk-virtual-scroll-viewport autoSize class="messages-container" #cdkScrollViewport>
-        @if (!dataSource.isLoadingHistory && dataSource.hasMoreHistory) {
-        <div class="load-more-container">
-            <button class="load-more-btn" (click)="loadOlderMessages()">加载早期消息</button>
-        </div>
-        }
-
-        <ng-container *cdkVirtualFor="let message of dataSource.messages; trackBy: trackByMessageId">
-            <div class="chat-message-item" [class.my-message]="message.isMyMessage"
-                [class.other-message]="!message.isMyMessage">
-
-                <div class="message-container">
-                    @if (!message.isMyMessage) {
-                    <deepin-avatar [avatarUrl]="message.from.id | fileUrl"></deepin-avatar>
-                    }
-                    <div class="message-content">
-                        @if (!message.isMyMessage) {
-                        <div class="message-sender">
-                            {{ message.from.displayName }}
-                        </div>
-                        }
-                        @if(message.content) {
-                        <div class="message-text">
-                            {{ message.content }}
-                            @if(message.isEdited){
-                            <span class="edited-indicator">(已编辑)</span>
-                            }
-                        </div>
-                        }
-
-                        <div class="message-timestamp">
-                            {{ message.createdAt | formatTime }}
-                            @if(message.isMyMessage && message.isRead){
-                            <span class="read-status">✓</span>
-                            }
-                        </div>
-                        <!-- 
-                        <div class="reactions" *ngIf="message.reactions && getReactionCount(message.reactions) > 0">
-                            <div *ngFor="let reaction of getReactionEntries(message.reactions)" class="reaction-badge">
-                                <span class="reaction-emoji">{{ reaction.emoji }}</span>
-                                <span class="reaction-count">{{ reaction.count }}</span>
-                            </div>
-                        </div> -->
-                    </div>
-                </div>
-
-                <!-- <div class="message-actions">
-                    <button class="action-btn" (click)="replyTo(message)" title="回复">↩️</button>
-                    <button class="action-btn" (click)="toggleEmojiPicker(message.id)" title="添加反应">😀</button>
-                    <button class="action-btn" *ngIf="isMyMessage(message)" (click)="editMessage(message)"
-                        title="编辑">✏️</button>
-                    <button class="action-btn" *ngIf="isMyMessage(message)" (click)="deleteMessage(message)"
-                        title="删除">🗑️</button>
-                </div> -->
-            </div>
-        </ng-container>
-    </cdk-virtual-scroll-viewport>
-
-    <div class="pull-to-load-indicator bottom"
-        [class.active]="isPulling && pullToLoadProgress > 0 && scrollViewport.measureScrollOffset('bottom') < 5">
-        <div class="progress-circle" [style.transform]="'rotate(' + (pullToLoadProgress * 3.6) + 'deg)'"></div>
-        <div class="pull-text">{{ pullToLoadProgress >= 100 ? '释放加载新消息' : '上拉加载新消息' }}</div>
-    </div>
-
-    @if (dataSource.isLoadingNewer) {
-    <div class="loading-indicator bottom">
-        <div class="spinner"></div>
-        <div>加载新消息...</div>
-    </div>
-    }
+@if (dataSource.isLoadingHistory) {
+<div class="loading-indicator">
+    <mat-spinner [diameter]="32"></mat-spinner>
 </div>
+}
+
+<cdk-virtual-scroll-viewport autoSize #cdkScrollViewport class="thin-scrollbar">
+    <deepin-message *cdkVirtualFor="let message of dataSource.messages; trackBy: trackByMessageId"
+        [message]="message"></deepin-message>
+</cdk-virtual-scroll-viewport>
+
+@if (dataSource.isLoadingNewer) {
+<div class="loading-indicator">
+    <mat-spinner [diameter]="32"></mat-spinner>
+</div>
+}
 }

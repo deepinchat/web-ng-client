@@ -5,9 +5,9 @@ import { filter, fromEvent, Subscription, throttleTime } from 'rxjs';
 import { AutoSizeDirective } from '../../../directives/auto-size.directive';
 import { MessageService } from '../../../../core/services/message.service';
 import { Message } from '../../../../core/models/message.model';
-import { AvatarComponent } from '../../avatar/avatar.component';
-import { FileUrlPipe } from '../../../pipes/file-url.pipe';
-import { FormatTimePipe } from '../../../pipes/format-time.pipe';
+import { ChatHubService } from '../../../../core/services/chat-hub.service';
+import { MessageComponent } from '../message/message.component';
+import { MatProgressSpinner, MatSpinner } from '@angular/material/progress-spinner';
 
 @Component({
   selector: 'deepin-message-list',
@@ -15,9 +15,8 @@ import { FormatTimePipe } from '../../../pipes/format-time.pipe';
     AutoSizeDirective,
     CdkVirtualScrollViewport,
     CdkVirtualForOf,
-    AvatarComponent,
-    FileUrlPipe,
-    FormatTimePipe
+    MatProgressSpinner,
+    MessageComponent
   ],
   templateUrl: './list.component.html',
   styleUrl: './list.component.scss',
@@ -36,8 +35,16 @@ export class MessaageListComponent implements OnInit, OnDestroy, AfterViewInit, 
 
   constructor(
     private ngZone: NgZone,
-    private messageService: MessageService
+    private messageService: MessageService,
+    private chatHubService: ChatHubService
   ) {
+    this.subscription.add(
+      this.chatHubService.newMessage$.subscribe(message => {
+        if (message && message.chatId === this.chatId) {
+          this.dataSource?.addMessage(message);
+        }
+      })
+    );
   }
 
   ngOnChanges(changes: SimpleChanges): void {

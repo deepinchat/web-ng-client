@@ -1,8 +1,8 @@
 import { Component, Input } from '@angular/core';
 import { DatePipe, NgIf } from '@angular/common';
-import { MatListItem, MatListItemAvatar, MatListItemLine, MatListItemMeta, MatListItemTitle } from '@angular/material/list';
+import { MatListItem, MatListItemAvatar, MatListItemLine, MatListItemMeta, MatListItemTitle, MatListModule } from '@angular/material/list';
 import { MatBadge } from '@angular/material/badge';
-import { RouterLink } from '@angular/router';
+import { RouterLink, RouterLinkActive } from '@angular/router';
 import { AvatarComponent } from '../../avatar/avatar.component';
 import { Chat } from '../../../../core/models/chat.model';
 import { FileUrlPipe } from '../../../pipes/file-url.pipe';
