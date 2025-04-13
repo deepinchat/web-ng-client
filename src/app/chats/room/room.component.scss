@@ -23,4 +23,9 @@ mat-toolbar {
         align-items: center;
         gap: .5rem;
     }
+
+    .chat-header-right {
+        display: flex;
+        gap: .5rem;
+    }
 }

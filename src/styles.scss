@@ -20,6 +20,7 @@ html {
       typography: Roboto,
       density: 0,
     ));
+  @include mat.theme-overrides((primary:#059669));
 }
 
 /* You can add global styles to this file, and also import other style files */

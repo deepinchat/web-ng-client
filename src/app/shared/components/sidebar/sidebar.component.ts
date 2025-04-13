@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { MatListModule } from '@angular/material/list';
 import { MatIcon } from '@angular/material/icon';
 import { MatMenu, MatMenuItem, MatMenuTrigger } from '@angular/material/menu';
-import { RouterLink } from '@angular/router';
+import { RouterLink, RouterLinkActive } from '@angular/router';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { ChatEditorComponent } from '../chats/chat-editor/chat-editor.component';
 import { ThemeType, LayoutService } from '../../../core/services/layout.service';
@@ -12,6 +12,7 @@ import { MatButtonModule } from '@angular/material/button';
   selector: 'deepin-sidebar',
   imports: [
     RouterLink,
+    RouterLinkActive,
     MatListModule,
     MatIcon,
     MatMenu,
@@ -44,8 +45,7 @@ export class SidebarComponent {
     this.dialog.open(ChatEditorComponent, {
       data: { type: 'group' },
       minWidth: 400,
-      maxWidth: 480,
-      minHeight: 600
+      height: 'auto'
     });
   }
 
@@ -53,8 +53,7 @@ export class SidebarComponent {
     this.dialog.open(ChatEditorComponent, {
       data: { type: 'channel' },
       minWidth: 400,
-      maxWidth: 480,
-      minHeight: 600
+      height: 'auto'
     });
   }
 }

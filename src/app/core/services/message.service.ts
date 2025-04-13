@@ -29,4 +29,8 @@ export class MessageService {
   send(request: MessageRequest) {
     return this.httpClient.post<Message>(`${environment.apiGateway}/message/api/v1/messages`, request);
   }
+  
+  markAsRead(chatId: string, messageId: string) {
+    return this.httpClient.post(`${environment.apiGateway}/api/v1/chats/${chatId}/messages/${messageId}/read`, {});
+  }
 }

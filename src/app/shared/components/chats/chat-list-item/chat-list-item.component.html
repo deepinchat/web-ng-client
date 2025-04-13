@@ -1,5 +1,5 @@
 <a mat-list-item [routerLink]="[chat.id]" [activated]="isActive">
-    <deepin-avatar matListItemAvatar [avatarUrl]="chat.id | fileUrl" [displayName]="chat.name"></deepin-avatar>
+    <deepin-avatar matListItemAvatar [fileId]="chat.avatarFileId" [displayName]="chat.name" />
     <h3 matListItemTitle>
         <span>{{chat.name}}</span>
         <span *ngIf="chat.unreadCount" [matBadge]="chat.unreadCount" matBadgeOverlap="false"></span>

@@ -40,7 +40,10 @@ export class ChatService {
   }
 
   update(request: ChatRequest, chatId: string) {
-    return this.httpClient.put<Chat>(`${environment.apiGateway}/chat/api/v1/chats/${chatId}`, request);
+    return this.httpClient.put<Chat>(`${environment.apiGateway}/chat/api/v1/chats/${chatId}`, {
+      id: chatId,
+      ...request
+    });
   }
 
   createOrUpdate(request: ChatRequest, chatId?: string) {

@@ -6,10 +6,11 @@ import { MatMenu, MatMenuItem, MatMenuTrigger } from '@angular/material/menu';
 import { MatToolbar } from '@angular/material/toolbar';
 import { Chat } from '../../core/models/chat.model';
 import { MatIcon } from '@angular/material/icon';
-import { FileUrlPipe } from '../../shared/pipes/file-url.pipe';
 import { AvatarComponent } from '../../shared/components/avatar/avatar.component';
 import { MessageEditorComponent } from '../../shared/components/messages/editor/editor.component';
 import { MessaageListComponent } from '../../shared/components/messages/list/list.component';
+import { MatDialog } from '@angular/material/dialog';
+import { ChatEditorComponent } from '../../shared/components/chats/chat-editor/chat-editor.component';
 
 @Component({
   selector: 'app-room',
@@ -22,8 +23,7 @@ import { MessaageListComponent } from '../../shared/components/messages/list/lis
     MatIcon,
     MessageEditorComponent,
     MessaageListComponent,
-    AvatarComponent,
-    FileUrlPipe
+    AvatarComponent
   ],
   templateUrl: './room.component.html',
   styleUrl: './room.component.scss'
@@ -33,6 +33,7 @@ export class RoomComponent implements OnInit, OnDestroy {
   chat?: Chat;
   constructor(
     private route: ActivatedRoute,
+    private dialog: MatDialog,
     private chatService: ChatService
   ) {
     this.id = this.route.snapshot.params['chatId'];
@@ -59,8 +60,20 @@ export class RoomComponent implements OnInit, OnDestroy {
         }
       });
   }
+
+  editChat() {
+    if (!this.chat) {
+      return;
+    }
+    this.dialog.open(ChatEditorComponent, {
+      data: { type: this.chat.type, chat: this.chat },
+      minWidth: '400px',
+      maxWidth: '480px',
+      height: 'auto'
+    });
+  }
+
   ngOnInit() {
     this.loadChat();
   }
-
 }

@@ -1,4 +1,6 @@
-import { Component, Input, OnInit, SimpleChanges } from '@angular/core';
+import { Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
+import { FileService } from '../../../core/services/file.service';
+import { map } from 'rxjs';
 
 const COLORS = [
   '#FF6767',
@@ -18,8 +20,8 @@ const COLORS = [
   templateUrl: './avatar.component.html',
   styleUrl: './avatar.component.scss'
 })
-export class AvatarComponent implements OnInit {
-  @Input() avatarUrl: string | null = null;
+export class AvatarComponent implements OnInit, OnChanges {
+  @Input() fileId: string | null = null;
   @Input() firstName: string = '';
   @Input() lastName: string = '';
   @Input() displayName: string = '';
@@ -27,10 +29,26 @@ export class AvatarComponent implements OnInit {
   @Input() shape: 'circle' | 'rounded' | 'square' = 'circle';
   backgroundColor: string = '';
   initials: string = '';
+  imageUrl = '';
+  constructor(
+    private fileService: FileService
+  ) { }
 
-  ngOnInit(): void {
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes["firstName"] || changes["lastName"] || changes["displayName"]) {
+      this.updateInitials();
+      this.updateBackgroundColor();
+    }
+    if (changes["fileId"] && this.fileId) {
+      this.loadImage(this.fileId);
+    }
+  }
+  ngOnInit() {
     this.updateInitials();
     this.updateBackgroundColor();
+    if (this.fileId) {
+      this.loadImage(this.fileId);
+    }
   }
 
   private updateInitials(): void {
@@ -66,7 +84,13 @@ export class AvatarComponent implements OnInit {
     this.backgroundColor = COLORS[colorIndex];
   }
 
-  handleImageError(): void {
-    this.avatarUrl = null;
+  loadImage(id: string) {
+    this.fileService.download(id)
+      .pipe(map((file) => {
+        return URL.createObjectURL(file);
+      }))
+      .subscribe(objectUrl => {
+        this.imageUrl = objectUrl;
+      });
   }
 }

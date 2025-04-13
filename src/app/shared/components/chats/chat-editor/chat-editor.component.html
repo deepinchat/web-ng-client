@@ -1,47 +1,48 @@
 <h2 mat-dialog-title>
-    {{data.id ? 'Edit group':'Create group'}}
-  </h2>
-  <mat-dialog-content>
-    <form *ngIf="form" [formGroup]="form">
-      <div class="group-picture">
-        <button (click)="onUploadAvatar()" mat-button>
-          <mat-icon>upload</mat-icon>
-          Upload a photo
-        </button>
-      </div>
-      <mat-form-field>
-        <mat-label>Name</mat-label>
-        <input matInput formControlName="name">
-      </mat-form-field>
-      <mat-form-field>
-        <mat-label>Link</mat-label>
-        <input matInput formControlName="userName">
-        <mat-hint>https://deepin.me/{{formControlValue('userName')}}</mat-hint>
-        @if (formControlErrors('userName')?.['required']) {
-        <mat-error>Link cannot be null.</mat-error>
-        }
-        @if (formControlErrors('userName')?.['minlength'] || formControlErrors('userName')?.['maxlength']) {
-        <mat-error>Link length must be 4-32 characters or numbers or underscores.</mat-error>
-        }
-        @if (formControlErrors('userName')?.['duplicated']) {
-        <mat-error>Link already exists.</mat-error>
-        }
-      </mat-form-field>
-      <mat-form-field>
-        <mat-label>Description</mat-label>
-        <textarea matInput formControlName="description"></textarea>
-      </mat-form-field>
-      <mat-checkbox formControlName="isPublic">
-        Public Chat
-      </mat-checkbox>
-    </form>
-  </mat-dialog-content>
-  <mat-dialog-actions>
-    <button type="button" [disabled]="isLoading" mat-button (click)="onCancel()">Cancel</button>
-    <button type="button" [disabled]="form?.invalid || isLoading" mat-raised-button color="primary" (click)="onSubmit()">
-      <mat-icon *ngIf="isLoading">
-        <mat-spinner diameter="16"></mat-spinner>
-      </mat-icon>
-      {{data.id ? 'Save' : 'Create'}}
-    </button>
-  </mat-dialog-actions>
+  {{isNew ? 'Create group' : 'Edit group'}}
+</h2>
+<mat-dialog-content>
+  <form *ngIf="form" [formGroup]="form">
+    <div class="chat-avatar">
+      <deepin-avatar [fileId]="formControlValue('avatarFileId')"
+        [displayName]="formControlValue('name')"></deepin-avatar>
+
+      <deepin-file-uploader (fileUploaded)="onFileUploaded($event)" [multiple]="false"
+        [accept]="'image/*'"></deepin-file-uploader>
+    </div>
+    <mat-form-field appearance="outline">
+      <mat-label>Name</mat-label>
+      <input matInput formControlName="name">
+    </mat-form-field>
+    <mat-form-field appearance="outline">
+      <mat-label>Link</mat-label>
+      <input matInput formControlName="userName">  
+      <mat-hint>https://deepin.me/{{formControlValue('userName')}}</mat-hint>
+      @if (formControlErrors('userName')?.['required']) {
+      <mat-error>Link cannot be null.</mat-error>
+      }
+      @if (formControlErrors('userName')?.['minlength'] || formControlErrors('userName')?.['maxlength']) {
+      <mat-error>Link length must be 4-32 characters or numbers or underscores.</mat-error>
+      }
+      @if (formControlErrors('userName')?.['duplicated']) {
+      <mat-error>Link already exists.</mat-error>
+      }
+    </mat-form-field>
+    <mat-form-field appearance="outline">
+      <mat-label>Description</mat-label>
+      <textarea matInput formControlName="description"></textarea>
+    </mat-form-field>
+    <mat-checkbox formControlName="isPublic">
+      Public Chat
+    </mat-checkbox>
+  </form>
+</mat-dialog-content>
+<mat-dialog-actions>
+  <button type="button" [disabled]="isLoading" mat-button (click)="onCancel()">Cancel</button>
+  <button type="button" [disabled]="form?.invalid || isLoading" mat-flat-button (click)="onSubmit()">
+    <mat-icon *ngIf="isLoading">
+      <mat-spinner diameter="16"></mat-spinner>
+    </mat-icon>
+    {{ isNew ? 'Create' : 'Save'}}
+  </button>
+</mat-dialog-actions>

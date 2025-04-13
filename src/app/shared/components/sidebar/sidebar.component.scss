@@ -17,3 +17,7 @@
     background-color: var(--mat-sys-background);
     padding: .5rem 0;
 }
+
+a.active {
+    background-color: var(--mat-sys-primary-container);
+}

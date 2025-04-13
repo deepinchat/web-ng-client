@@ -1,5 +1,14 @@
 form {
     display: flex;
     flex-direction: column;
-    gap: var(--default-gap);
+    gap: .75rem;
+}
+
+mat-dialog-content {
+    overflow: hidden;
+}
+.chat-avatar{
+    display: flex;
+    gap: .5rem;
+    align-items: center;
 }

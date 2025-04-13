@@ -1,18 +1,18 @@
 @if (dataSource) {
 @if (dataSource.isLoadingHistory) {
 <div class="loading-indicator">
-    <mat-spinner [diameter]="32"></mat-spinner>
+    <mat-spinner [diameter]="20"></mat-spinner>
 </div>
 }
 
-<cdk-virtual-scroll-viewport autoSize #cdkScrollViewport class="thin-scrollbar">
+<cdk-virtual-scroll-viewport itemSize="auto" #cdkScrollViewport class="thin-scrollbar" cdkScrollable>
     <deepin-message *cdkVirtualFor="let message of dataSource.messages; trackBy: trackByMessageId"
-        [message]="message"></deepin-message>
+        id="message-{{message.id}}" [message]="message"></deepin-message>
 </cdk-virtual-scroll-viewport>
 
 @if (dataSource.isLoadingNewer) {
 <div class="loading-indicator">
-    <mat-spinner [diameter]="32"></mat-spinner>
+    <mat-spinner [diameter]="20"></mat-spinner>
 </div>
 }
 }
