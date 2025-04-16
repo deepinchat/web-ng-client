@@ -1,47 +1,28 @@
-import { Component, EventEmitter, Inject, Input, OnDestroy, OnInit, Output } from '@angular/core';
-import { FileService } from '../../../core/services/file.service';
-import { MatIcon } from '@angular/material/icon';
-import { MatButton } from '@angular/material/button';
+import { Directive, ElementRef, EventEmitter, Inject, Input, Output } from '@angular/core';
+import { FileService } from '../../core/services/file.service';
 import { DOCUMENT } from '@angular/common';
-import { FileModel } from '../../../core/models/file.model';
+import { FileModel } from '../../core/models/file.model';
 
-@Component({
-  selector: 'deepin-file-uploader',
-  imports: [
-    MatIcon,
-    MatButton
-  ],
-  templateUrl: './file-uploader.component.html',
-  styleUrl: './file-uploader.component.scss'
+@Directive({
+  selector: '[fileUploader]'
 })
-export class FileUploaderComponent implements OnInit, OnDestroy {
+export class FileUploaderDirective {
   @Input() multiple: boolean = false;
   @Input() accept: string = '';
   @Input() maxSize: number = 0;
-  @Input() disabled: boolean = false;
-  @Input() text: string = 'Upload File';
   @Output() fileUploaded: EventEmitter<FileModel[]> = new EventEmitter<FileModel[]>();
   private elementId = 'file-uploader-' + Math.random().toString(36).substring(7);
   constructor(
     @Inject(DOCUMENT) private document: Document,
-    private fileService: FileService) {
+    private elemenrRef: ElementRef,
+    private fileService: FileService) { }
 
-  }
-
-  ngOnDestroy(): void {
-    const input = this.document.getElementById(this.elementId);
-    if (input) {
-      this.document.body.removeChild(input);
-    }
-  }
-
-  ngOnInit(): void {
-
-  }
-
-  onUpload(): void {
-    const input = this.getOrCreateImageUploadElement();
-    input.click();
+  ngOnInit() {
+    const button = this.elemenrRef.nativeElement;
+    button.addEventListener('click', () => {
+      const input = this.getOrCreateImageUploadElement();
+      input.click();
+    });
   }
 
   private getOrCreateImageUploadElement() {
@@ -67,4 +48,5 @@ export class FileUploaderComponent implements OnInit, OnDestroy {
     }
     return input;
   }
+
 }

@@ -57,4 +57,11 @@ export class ChatService {
   getMembers(chatId: string, offset: number, limit: number) {
     return this.httpClient.get(`${environment.apiGateway}/api/v1/chats/${chatId}/members?offset=${offset}&limit=${limit}`);
   }
+
+  readMessage(chatId: string, messageId: string) {
+    return this.httpClient.post(`${environment.apiGateway}/api/v1/chats/${chatId}/read-status`, {
+      chatId,
+      messageId
+    });
+  }
 }

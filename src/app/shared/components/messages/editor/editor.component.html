@@ -3,16 +3,29 @@
     <button mat-icon-button>
         <mat-icon>mood</mat-icon>
     </button>
-    <button mat-icon-button>
+    <button mat-icon-button fileUploader [accept]="'image/*'" [maxSize]="9" [multiple]="true"
+        (fileUploaded)="onFileUploaded($event)">
         <mat-icon>image</mat-icon>
     </button>
-    <button mat-icon-button>
+    <button mat-icon-button mat-icon-button fileUploader [accept]="'*'" [maxSize]="9" [multiple]="true"
+        (fileUploaded)="onFileUploaded($event)">
         <mat-icon>attach_file</mat-icon>
     </button>
 </div>
 <form [formGroup]="form" (ngSubmit)="onSubmit()" (keydown)="enterForm($event)">
+    <mat-chip-set style="margin:0 .5rem .5rem .5rem;" aria-label="Enter template form keywords">
+        @for (item of attachments; track $index) {
+        <mat-chip-row>
+            {{item.fileName}}
+            <button matChipRemove [attr.aria-label]="'remove template form' + item.fileName" (click)="removeFile(item.fileId)">
+                <mat-icon>cancel</mat-icon>
+            </button>
+        </mat-chip-row>
+        }
+    </mat-chip-set>
     <mat-form-field appearance="outline">
-        <textarea rows="3" formControlName="content" matInput placeholder="Typing messages here"></textarea>
+        <mat-label>Message</mat-label>
+        <textarea rows="3" formControlName="text" matInput placeholder="Typing messages here"></textarea>
         <button class="form-submit" type="submit" mat-mini-fab [disabled]="form.invalid || isLoading" matSuffix
             mat-icon-button>
             @if (isLoading) {
@@ -21,5 +34,13 @@
             <mat-icon>send</mat-icon>
         </button>
     </mat-form-field>
+    <!-- @if(attachments && attachments.length > 0) {
+    <div class="attachments">
+        @for (item of attachments; track $index) {
+        <mat-icon (click)="removeFile(item.fileId)">close</mat-icon>
+        <span>{{ item.fileName }}</span>
+        }
+    </div>
+    } -->
 </form>
 }

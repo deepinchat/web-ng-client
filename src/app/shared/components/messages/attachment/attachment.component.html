@@ -1,0 +1,7 @@
+@if(attachment) {
+@if (attachment.type === 'image') {
+<deepin-image class="image-attachment" [fileId]="attachment.fileId" />
+} @else if (attachment.type === 'video') {
+<deepin-video class="video-attachment" [fileId]="attachment.fileId" />
+}
+}

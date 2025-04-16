@@ -15,7 +15,7 @@
     }
 
     &-content {
-        padding: 12px 16px;
+        padding: .5rem .75rem;
         box-shadow: var(--mat-sys-level0);
         position: relative;
         word-break: break-word;
@@ -31,15 +31,17 @@
 
     &-text {
         line-height: 1.5;
-    } 
+    }
 
     &-my {
         justify-content: flex-start;
-        flex-direction: row-reverse; 
-        .message-sender{
+        flex-direction: row-reverse;
+
+        .message-sender {
             flex-direction: row-reverse;
             justify-content: end;
         }
+
         .message-content {
             color: var(--mat-sys-on-surface);
             background-color: var(--mat-sys-primary-container);
@@ -54,5 +56,18 @@
             border-radius: 0 1rem 1rem 1rem;
             background-color: var(--mat-sys-surface-container-high)
         }
+    }
+
+    &-attachments {
+        display: flex;
+        gap: 1rem;
+        margin-top: 1rem;
+    }
+
+    &-attachment {
+        display: flex;
+        flex-direction: column;
+        gap: .5rem;
+        max-width: 320px;
     }
 }

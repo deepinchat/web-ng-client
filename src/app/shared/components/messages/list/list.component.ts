@@ -1,5 +1,6 @@
-import { CdkVirtualForOf, CdkVirtualScrollViewport, ScrollingModule } from '@angular/cdk/scrolling';
+import { CdkVirtualForOf, CdkVirtualScrollViewport, ScrollDispatcher, ScrollingModule } from '@angular/cdk/scrolling';
 import { AfterViewInit, Component, Input, NgZone, OnChanges, OnDestroy, OnInit, SimpleChanges, ViewChild } from '@angular/core';
+import { ScrollingModule as ExperimentalScrollingModule } from '@angular/cdk-experimental/scrolling';
 import { MessageDataSource } from './message.datasource';
 import { filter, Subscription, throttleTime } from 'rxjs';
 import { MessageService } from '../../../../core/services/message.service';
@@ -7,6 +8,7 @@ import { Message } from '../../../../core/models/message.model';
 import { ChatHubService } from '../../../../core/services/chat-hub.service';
 import { MessageComponent } from '../message/message.component';
 import { MatProgressSpinner } from '@angular/material/progress-spinner';
+import { ChatService } from '../../../../core/services/chat.service';
 
 @Component({
   selector: 'deepin-message-list',
@@ -26,12 +28,15 @@ export class MessaageListComponent implements OnInit, OnDestroy, AfterViewInit, 
   dataSource?: MessageDataSource;
   isAtBottom = false;
   isInitialized = false;
+  lastScrollPosition = 0;
   private subscriptions: Subscription[] = [];
 
   constructor(
     private ngZone: NgZone,
+    private scrollDispatcher: ScrollDispatcher,
     private messageService: MessageService,
-    private chatHubService: ChatHubService
+    private chatHubService: ChatHubService,
+    private chatService: ChatService
   ) { }
 
   ngOnChanges(changes: SimpleChanges): void {
@@ -80,8 +85,8 @@ export class MessaageListComponent implements OnInit, OnDestroy, AfterViewInit, 
 
   ngAfterViewInit(): void {
     this.subscriptions.push(
-      this.scrollViewport.elementScrolled().pipe(
-        throttleTime(100),
+      this.scrollDispatcher.scrolled().pipe(
+        throttleTime(500),
         filter(() => this.isInitialized && this.scrollViewport.getDataLength() > 0)
       ).subscribe(() => {
         this.checkScrollPosition();
@@ -101,16 +106,23 @@ export class MessaageListComponent implements OnInit, OnDestroy, AfterViewInit, 
 
   checkScrollPosition(): void {
     if (!this.scrollViewport) return;
-
     const scrollTop = this.scrollViewport.measureScrollOffset('top');
     const scrollBottom = this.scrollViewport.measureScrollOffset('bottom');
-    const clientHeight = this.scrollViewport.getElementRef().nativeElement.clientHeight;
-    const threshold = clientHeight * 0.5;
-    if (scrollTop < threshold && !this.dataSource?.isLoadingHistory && this.dataSource?.hasMoreHistory) {
+    const scrollHeight = this.scrollViewport.getElementRef().nativeElement.scrollHeight;
+    const isScrollingUp = this.lastScrollPosition > scrollTop;
+    this.lastScrollPosition = scrollTop;
+    const threshold = scrollHeight * 0.5;
+    console.log({
+      scrollHeight,
+      scrollTop,
+      scrollBottom,
+      threshold
+    });
+    if (isScrollingUp && scrollTop < threshold && !this.dataSource?.isLoadingHistory && this.dataSource?.hasMoreHistory) {
       this.dataSource?.loadOlderMessages().subscribe(success => { })
       return;
     }
-    if (scrollBottom < threshold && !this.dataSource?.isLoadingNewer && this.dataSource?.hasMoreNewer) {
+    if (!isScrollingUp && scrollBottom < threshold && !this.dataSource?.isLoadingNewer && this.dataSource?.hasMoreNewer) {
       this.dataSource?.loadNewerMessages().subscribe(success => {
         if (success) {
           setTimeout(() => this.scrollToBottom(), 100);
@@ -150,7 +162,7 @@ export class MessaageListComponent implements OnInit, OnDestroy, AfterViewInit, 
       if (this.scrollViewport) {
         this.scrollViewport.scrollTo({ bottom: 0, behavior: this.isInitialized ? 'smooth' : 'auto' });
         if (this.isInitialized && this.dataSource?.latestMessage) {
-          this.messageService.markAsRead(this.chatId, this.dataSource.latestMessage.id).subscribe();
+          this.chatService.readMessage(this.chatId, this.dataSource.latestMessage.id).subscribe();
         }
       }
     });

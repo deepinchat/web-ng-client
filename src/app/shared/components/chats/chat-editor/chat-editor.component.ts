@@ -32,7 +32,7 @@ import { AvatarComponent } from "../../avatar/avatar.component";
     MatInputModule,
     FileUploaderComponent,
     AvatarComponent
-],
+  ],
   templateUrl: './chat-editor.component.html',
   styleUrl: './chat-editor.component.scss'
 })
@@ -93,9 +93,8 @@ export class ChatEditorComponent {
         }
       })
   }
-  
-  onFileUploaded(file: FileModel) {
-    console.log(file)
-    this.form?.get('avatarFileId')?.setValue(file.id);
+
+  onFileUploaded(files: FileModel[]) {
+    this.form?.get('avatarFileId')?.setValue(files[0].id);
   }
 }

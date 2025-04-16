@@ -1,21 +1,28 @@
 @if (message) {
 <div class="message" [class.message-my]="message.isMyMessage" [class.message-other]="!message.isMyMessage">
-    <deepin-avatar [fileId]="message.from.avatarFileId"></deepin-avatar>
+    <deepin-avatar [fileId]="message.sender.avatarFileId"></deepin-avatar>
     <div class="message-container">
         <div class="message-sender">
             <span>
-                {{ message.from.displayName }}
+                {{ message.sender.displayName }}
             </span>
             <small>
                 {{ message.createdAt | formatTime }}
             </small>
         </div>
         <div class="message-content">
-            @if(message.content) {
+            @if(message.text) {
             <div class="message-text">
-                {{ message.content }}
+                {{ message.text }}
                 @if(message.isEdited){
                 <span class="edited-indicator">(Edited)</span>
+                }
+            </div>
+            }
+            @if(message.attachments && message.attachments.length > 0) {
+            <div class="message-attachments">
+                @for(item of message.attachments; track $index){
+                <deepin-message-attachment class="message-attachment" [attachment]="item"></deepin-message-attachment>
                 }
             </div>
             }

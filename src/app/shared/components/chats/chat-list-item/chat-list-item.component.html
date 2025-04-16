@@ -5,8 +5,8 @@
         <span *ngIf="chat.unreadCount" [matBadge]="chat.unreadCount" matBadgeOverlap="false"></span>
     </h3>
     <p matListItemLine *ngIf="chat.lastMessage">
-        <span>{{ chat.lastMessage.from.displayName }} - </span>
-        <span>{{ chat.lastMessage.content| subString:32 }} </span>
+        <span>{{ chat.lastMessage.sender.displayName }} - </span>
+        <span>{{ chat.lastMessage.text | subString:32 }} </span>
     </p>
     <small matListItemMeta>
         {{chat.updatedAt | date: 'short'}}
